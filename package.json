@@ -1,0 +1,7 @@
+{
+  "name": "reaction-diffusion",
+  "version": "0.0.0",
+  "main": "index.js",
+  "author": "Mark Hintz <mark.hintz@datadoghq.com>",
+  "license": "None"
+}
