@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["es6", "dom", "dom.iterable"],
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "~*": ["./*"],
+      "*": ["./*"]
+    },
+    "sourceMap": true,
+    "jsx": "react",
+    "declaration": true,
+    "diagnostics": true,
+    "listFiles": false,
+    "listEmittedFiles": false,
+    "noEmitOnError": true,
+    "noErrorTruncation": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": false,
+    "strict": true,
+    "noImplicitReturns": true,
+    "downlevelIteration": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true
+  }
+}

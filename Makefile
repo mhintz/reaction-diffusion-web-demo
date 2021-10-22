@@ -1,4 +1,10 @@
-.PHONY: run
+.PHONY: run build
 
-run:
+run: build
 	yarn electron .
+
+build: out/reaction-diffusion.js
+
+out/reaction-diffusion.js: rollup.config.js ./*.ts
+	yarn rollup -c rollup.config.js
+

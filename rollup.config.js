@@ -8,7 +8,7 @@ export default {
   input: 'reaction-diffusion.ts',
   output: {
     file: 'out/reaction-diffusion.js',
-    dir: 'out',
+    // dir: 'out',
     format: 'cjs',
     sourcemap: true,
     // homemade iife wrapper for the output bundle

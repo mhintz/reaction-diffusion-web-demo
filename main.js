@@ -1,14 +1,20 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require("electron");
+const { app, screen, BrowserWindow } = require("electron");
 const path = require("path");
 
 function createWindow() {
+  const primaryDisplay = screen.getPrimaryDisplay();
+  let { width, height } = primaryDisplay.workAreaSize;
+
+  width = 400;
+  height = 400;
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width,
+    height,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      // preload: path.join(__dirname, "preload.js"),
     },
   });
 
