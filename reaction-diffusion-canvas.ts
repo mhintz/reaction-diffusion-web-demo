@@ -1,6 +1,4 @@
-type Point = { x: number; y: number };
-
-const point = (x: number, y: number) => ({ x, y });
+import { Point, point, floor, rect, loop } from "./common";
 
 class RDBuffer {
   length: number;
@@ -57,13 +55,6 @@ const getContext = (
   return canvas.getContext("2d")!;
 };
 
-const loop = <F extends () => void>(fn: F) => {
-  fn();
-  requestAnimationFrame(() => {
-    loop(fn);
-  });
-};
-
 const drawRDBuffer = (
   ctx: CanvasRenderingContext2D,
   buffer: RDBuffer,
@@ -86,30 +77,6 @@ const drawRDBuffer = (
   ctx.putImageData(imageData, 0, 0);
 };
 
-const { abs, min, max, floor } = Math;
-
-const fract = (x: number) => x % 1.0;
-
-const step = (t: number, x: number) => (x < t ? 0 : 1);
-
-const edge = (a: number, b: number, x: number) => step(a, x) - step(b, x);
-
-const rect = (
-  x: number,
-  y: number,
-  x0: number,
-  y0: number,
-  width: number,
-  height: number,
-  thick: number
-) => {
-  const outerX = edge(x0 - thick, x0 + width + thick, x);
-  const innerX = edge(x0 + thick, x0 + width - thick, x);
-  const outerY = edge(y0 - thick, y0 + height + thick, y);
-  const innerY = edge(y0 + thick, y0 + height - thick, y);
-  return max(outerX - innerX, outerY - innerY);
-};
-
 const convolute = (
   ul: number,
   u: number,
@@ -120,16 +87,19 @@ const convolute = (
   bl: number,
   b: number,
   br: number
-) =>
-  0.05 * ul +
-  0.2 * u +
-  0.05 * ur +
-  0.2 * l +
-  -1 * c +
-  0.2 * r +
-  0.05 * bl +
-  0.2 * b +
-  0.05 * br;
+): number => {
+  return (
+    0.05 * ul +
+    0.2 * u +
+    0.05 * ur +
+    0.2 * l +
+    -1 * c +
+    0.2 * r +
+    0.05 * bl +
+    0.2 * b +
+    0.05 * br
+  );
+};
 
 /* config */
 const diffusionRateA = 1.0;

@@ -5,9 +5,9 @@ import glslify from 'rollup-plugin-glslify';
 // import commonjs from 'rollup-plugin-commonjs';
 
 export default {
-  input: 'reaction-diffusion.ts',
+  input: 'reaction-diffusion-canvas.ts',
   output: {
-    file: 'out/reaction-diffusion.js',
+    file: 'out/reaction-diffusion-canvas.js',
     // dir: 'out',
     format: 'cjs',
     sourcemap: true,

@@ -13,6 +13,7 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
+    "gl-texture2d": "^2.1.0",
     "tslib": "^2.3.1"
   }
 }
