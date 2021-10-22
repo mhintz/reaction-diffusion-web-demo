@@ -9,8 +9,8 @@ function createWindow() {
   width = width;
   height = height;
 
-  width = 600;
-  height = 600;
+  width = 1024;
+  height = 1024;
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -25,7 +25,7 @@ function createWindow() {
   mainWindow.loadFile("index.html");
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools({ mode: 'undocked' })
 }
 
 // This method will be called when Electron has finished

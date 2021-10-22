@@ -1,4 +1,4 @@
-.PHONY: run build
+.PHONY: run build build-canvas
 
 run: build
 	yarn electron .

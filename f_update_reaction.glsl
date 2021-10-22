@@ -1,4 +1,4 @@
-precision mediump float;
+precision highp float;
 
 uniform sampler2D buffer;
 uniform vec2 dims;
@@ -25,19 +25,24 @@ float convolute(float ul, float u, float ur, float l, float c, float r, float bl
   );
 }
 
+// texture sampling with wrapping in x and y, so the texture "repeats" if you sample outside its bounds
+vec4 sampleTexWrap(sampler2D buffer, vec2 uv) {
+  return texture2D(buffer, fract(uv + 1.0));
+}
+
 void main() {
   float xinc = 1.0 / dims.x;
   float yinc = 1.0 / dims.y;
 
-  vec4 ul = texture2D(buffer, uv + vec2(-xinc, -yinc));
-  vec4 u = texture2D(buffer, uv + vec2(0, -yinc));
-  vec4 ur = texture2D(buffer, uv + vec2(xinc, -yinc));
-  vec4 l = texture2D(buffer, uv + vec2(-xinc, 0));
-  vec4 cur = texture2D(buffer, uv + vec2(0, 0));
-  vec4 r = texture2D(buffer, uv + vec2(xinc, 0));
-  vec4 bl = texture2D(buffer, uv + vec2(-xinc, yinc));
-  vec4 b = texture2D(buffer, uv + vec2(0, yinc));
-  vec4 br = texture2D(buffer, uv + vec2(xinc, yinc));
+  vec4 ul = sampleTexWrap(buffer, uv + vec2(-xinc, -yinc));
+  vec4 u = sampleTexWrap(buffer, uv + vec2(0, -yinc));
+  vec4 ur = sampleTexWrap(buffer, uv + vec2(xinc, -yinc));
+  vec4 l = sampleTexWrap(buffer, uv + vec2(-xinc, 0));
+  vec4 cur = sampleTexWrap(buffer, uv + vec2(0, 0));
+  vec4 r = sampleTexWrap(buffer, uv + vec2(xinc, 0));
+  vec4 bl = sampleTexWrap(buffer, uv + vec2(-xinc, yinc));
+  vec4 b = sampleTexWrap(buffer, uv + vec2(0, yinc));
+  vec4 br = sampleTexWrap(buffer, uv + vec2(xinc, yinc));
 
   float curA = cur.x;
   float curB = cur.y;
@@ -47,9 +52,8 @@ void main() {
   float diffA = diffusionRateA * convolute(ul.x, u.x, ur.x, l.x, curA, r.x, bl.x, b.x, br.x);
   float diffB = diffusionRateB * convolute(ul.y, u.y, ur.y, l.y, curB, r.y, bl.y, b.y, br.y);
 
-  float newA = curA + (diffA - ABB + feedRateA * (1.0 - curA));
-  float newB = curB + (diffB + ABB - (feedRateA + killRateB) * curB);
+  float newA = clamp(curA + (diffA - ABB + feedRateA * (1.0 - curA)), 0.0, 1.0);
+  float newB = clamp(curB + (diffB + ABB - (feedRateA + killRateB) * curB), 0.0, 1.0);
 
-  /* gl_FragColor = vec4(newA, newB, 0.0, 1.0); */
   gl_FragColor = vec4(newA, newB, 0.0, 1.0);
 }
