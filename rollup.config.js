@@ -1,29 +1,31 @@
-import builtins from 'builtin-modules';
-import typescript from '@rollup/plugin-typescript';
-import glslify from 'rollup-plugin-glslify';
-// import resolve from 'rollup-plugin-node-resolve';
-// import commonjs from 'rollup-plugin-commonjs';
+import builtins from "builtin-modules";
+import typescript from "@rollup/plugin-typescript";
+import glslify from "rollup-plugin-glslify";
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 
 export default {
-  input: 'reaction-diffusion-canvas.ts',
+  input: "reaction-diffusion-webgl.ts",
   output: {
-    file: 'out/reaction-diffusion-canvas.js',
+    file: "out/reaction-diffusion-webgl.js",
     // dir: 'out',
-    format: 'cjs',
+    format: "cjs",
     sourcemap: true,
     // homemade iife wrapper for the output bundle
-    banner: '(function() {\n',
-    footer: '\n})()',
+    banner: "(function() {\n",
+    footer: "\n})()",
   },
-  external: [...builtins, 'electron'],
+  external: [...builtins, "electron"],
   plugins: [
-    typescript({ module: 'es2015', outDir: 'out' }),
-    glslify(),
-    // resolve({
-    //   mainFields: ['module', 'main', 'browser'],
-    //   extensions: ['.ts', '.tsx', '.js'],
-    //   preferBuiltins: true,
-    // }),
-    // commonjs(),
+    typescript({ module: "es2015", outDir: "out" }),
+    glslify({
+      basedir: ".",
+    }),
+    resolve({
+      mainFields: ['module', 'main', 'browser'],
+      extensions: ['.ts', '.tsx', '.js'],
+      preferBuiltins: true,
+    }),
+    commonjs()
   ],
 };

@@ -6,8 +6,11 @@ function createWindow() {
   const primaryDisplay = screen.getPrimaryDisplay();
   let { width, height } = primaryDisplay.workAreaSize;
 
-  width = 400;
-  height = 400;
+  width = width;
+  height = height;
+
+  width = 600;
+  height = 600;
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -22,7 +25,7 @@ function createWindow() {
   mainWindow.loadFile("index.html");
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished

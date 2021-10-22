@@ -144,6 +144,8 @@ const main = () => {
     sourceBuffer.set(loc, value);
   }
 
+  drawRDBuffer(ctx, sourceBuffer, width, height);
+
   // run the simulation
   loop(() => {
     const pos = point(0, 0);
