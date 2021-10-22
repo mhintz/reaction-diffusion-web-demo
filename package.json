@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "main": "main.js",
   "author": "Mark Hintz <mark.hintz@datadoghq.com>",
-  "license": "All Rights Reserved",
   "devDependencies": {
     "electron": "^15.3.0",
     "esbuild": "^0.13.8",
