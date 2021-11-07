@@ -1,12 +1,16 @@
-.PHONY: run build build-canvas
+.PHONY: run build-webgl build-canvas clean
 
-run: build
+run: build-webgl
 	yarn electron .
+
+build-webgl: out/reaction-diffusion-webgl.js
+
+build-canvas: out/reaction-diffusion-canvas.js
+
+clean:
+	rm out/*
 
 B_FLAGS := --bundle --platform=browser --define:global=window --loader:.glsl=text
 
-build: ./*.ts
-	yarn esbuild reaction-diffusion-webgl.ts --outfile=out/reaction-diffusion-webgl.js $(B_FLAGS)
-
-build-canvas: ./*.ts
-	yarn esbuild reaction-diffusion-canvas.ts --outfile=out/reaction-diffusion-canvas.js $(B_FLAGS)
+out/%.js: %.ts ./*.ts
+	yarn esbuild $*.ts --outfile=$@ $(B_FLAGS)
