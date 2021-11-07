@@ -8,6 +8,8 @@ import passThroughVert from "./v_pass_through.glsl";
 import updateReactionFrag from "./f_update_reaction.glsl";
 import renderReactionFrag from "./f_render_reaction.glsl";
 
+type Shader = ReturnType<typeof createShader>;
+
 const getContext = (width: number, height: number): WebGLRenderingContext => {
   const canvas = document.querySelector("#main")! as HTMLCanvasElement;
 
@@ -34,6 +36,15 @@ const typeXi = [0.014, 0.047];
 const typePi = [0.062, 0.061];
 
 const [feedRateA, killRateB] = typeXi;
+
+const buildShader = (gl: WebGLRenderingContext, vertexCode: string, fragmentCode: string): Shader | null => {
+  try {
+    return createShader(gl, vertexCode, fragmentCode);
+  } catch (err: any) {
+    console.error('Shader compilation error: ', err.longMessage, err);
+    return null;
+  }
+}
 
 const main = () => {
   const width = window.innerWidth;
@@ -63,10 +74,14 @@ const main = () => {
   gl.clearColor(1, 0, 1, 1);
   gl.clear(gl.COLOR_BUFFER_BIT);
 
-  const updateShader = createShader(gl, passThroughVert, updateReactionFrag);
-  updateShader.attributes.position.location = 0;
+  const updateShader = buildShader(gl, passThroughVert, updateReactionFrag);
+  const renderShader = buildShader(gl, passThroughVert, renderReactionFrag);
 
-  const renderShader = createShader(gl, passThroughVert, renderReactionFrag);
+  if (updateShader === null || renderShader === null) {
+    return;
+  }
+
+  updateShader.attributes.position.location = 0;
   renderShader.attributes.position.location = 0;
 
   let sourceBuffer = createFbo(gl, [width, height], {

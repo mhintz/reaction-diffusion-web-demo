@@ -9,8 +9,8 @@ function createWindow() {
   width = width;
   height = height;
 
-  width = 1024;
-  height = 1024;
+  width = 1200;
+  height = 1200;
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({

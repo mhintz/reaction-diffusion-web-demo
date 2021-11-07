@@ -12,5 +12,5 @@ clean:
 
 B_FLAGS := --bundle --platform=browser --define:global=window --loader:.glsl=text
 
-out/%.js: %.ts ./*.ts
+out/%.js: %.ts ./*.ts ./*.glsl
 	yarn esbuild $*.ts --outfile=$@ $(B_FLAGS)
